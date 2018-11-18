@@ -3,6 +3,7 @@ from rest_framework import status
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import Product
+from suppliers.models import Supplier
 from .serializers import ProductSerializer
 
 # initialize the APIClient app
@@ -12,11 +13,11 @@ class GetAllProductsTest(TestCase):
 
     def setUp(self):
         Product.objects.create(
-            name='Samsung TV', description='42" Samsung Digital Tv', price=56000)
+            name='Samsung TV',supplier=Supplier.objects.get(pk=1))
         Product.objects.create(
-            name='Lenovo Laptop', description='Lenovo T450 Slim', price=143000)
+            name='Lenovo Laptop',supplier=Supplier.objects.get(pk=2))
         Product.objects.create(
-            name='Iphone X', description='Apple Iphone X 128gb', price=125000)
+            name='Iphone X', supplier=Supplier.objects.get(pk=1))
 
     def test_get_all_products(self):
         # get API response
@@ -32,17 +33,17 @@ class GetAllProductsTest(TestCase):
 class GetSingleProductTest(TestCase):
 
     def setUp(self):
-        self.TV=Product.objects.create(
-            name='Samsung TV', description='42" Samsung Digital Tv', price=56000)
-        self.Lenovo=Product.objects.create(
-            name='Lenovo Laptop', description='Lenovo T450 Slim', price=143000)
-        self.Iphone=Product.objects.create(
-            name='Iphone X', description='Apple Iphone X 128gb', price=125000)
+        Product.objects.create(
+            name='Samsung TV',supplier=Supplier.objects.get(pk=1))
+        Product.objects.create(
+            name='Lenovo Laptop',supplier=Supplier.objects.get(pk=2))
+        Product.objects.create(
+            name='Iphone X', supplier=Supplier.objects.get(pk=1))
 
     def test_get_valid_single_product(self):
         response = client.get(
-            reverse('get_delete_update_product', kwargs={'pk': self.Iphone.pk}))
-        iphone = Product.objects.get(pk=self.Iphone.pk)
+            reverse('get_delete_update_product', kwargs={'pk': 1}))
+        iphone = Product.objects.get(pk=1)
         serializer = ProductSerializer(iphone)
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -59,7 +60,7 @@ class CreateNewProductTest(TestCase):
 
     def setUp(self):
         self.valid_payload = {
-            'name':'Iphone X', 'description':'Apple Iphone X 128gb', 'price':'125000'
+            'name':'Iphone X', 'supplier':1
         }
 
     def test_create_valid_product(self):

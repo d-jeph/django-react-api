@@ -1,9 +1,10 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Product
-from .serializers import ProductSerializer
+from .models import *
+from .serializers import *
 
 
 class ProductList(APIView):
@@ -43,7 +44,7 @@ class ProductDetail(APIView):
         try:
             return Product.objects.get(pk=pk)
         except Product.DoesNotExist:
-            raise Http404
+            raise Http404("Invalid product id.")
 
     def get(self, request, pk, format=None):
         product = self.get_object(pk)
@@ -62,3 +63,4 @@ class ProductDetail(APIView):
         product = self.get_object(pk)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+

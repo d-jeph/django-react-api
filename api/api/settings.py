@@ -23,20 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&yk53aw@l_pdqlq!h_==2io!hmgspz@(@$*wzfc_uoi3her+d1'
 
-#Api Constants
-CONSUMER_KEY='PwoeSDawGyR0bASApXB5Yur977zXAWe7'
-CONSUMER_SECRET='9aPO6xeyun4aykxC'
-PASS_KEY="bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-TOKEN_URL ="https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-LIPA_NA_MPESA_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-NGROK='https://173d6b14.ngrok.io/'
-ALLOWED_HOSTS = ['173d6b14.ngrok.io' ,'127.0.0.1','localhost']##ALLOWED_HOSTS=['12dc06c2.ngrok.io',]
-
 
 # Application definition
 
@@ -50,7 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'products',
-    'daraja'
+    'suppliers',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -87,27 +76,23 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db', # set in docker-compose.yml
-        'PORT': 5432 # default postgres port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
-#We should migrate our database at this point on Docker.
-#docker-compose run web python /code/manage.py migrate --noinput
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': 'db', # set in docker-compose.yml
+#         'PORT': 5432 # default postgres port
+#     }
+# }
 
-# docker-compose up -d --build
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
