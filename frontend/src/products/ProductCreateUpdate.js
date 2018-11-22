@@ -8,23 +8,41 @@ class ProductCreateUpdate extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToIndex: false
+            redirectToIndex: false,
+            selectedSupplier:"",
+            suppliersList:[]
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
       }
 
       componentDidMount(){
         const { match: { params } } = this.props;
-        if(params && params.pk)
+        productsService.getSuppliers().then((c)=>{
+          this.setState({
+            suppliersList:c
+          })
+         
+        })
+
+        if(params && params.pk && !isNaN(parseInt(params.pk)))
         {
           productsService.getProduct(params.pk).then((c)=>{
-             console.log('REFS', this.refs.name);
             this.refs.name.value = c.name;
-            this.refs.supplier.value = c.supplier;
+            //this.refs.supplier.value = c.supplier.id;
+            if(c.supplier!= null){
+              this.setState({
+                selectedSupplier:c.supplier.id
+             })
+            }
+            
            
           })
         }
+      }
+      handleChange(event) {
+        this.setState({selectedSupplier: event.target.value});
       }
 
       handleCreate(){
@@ -47,7 +65,7 @@ class ProductCreateUpdate extends Component {
           {
             "pk": pk,
             "name": this.refs.name.value,
-            "supplier": this.refs.supplier.value
+            "supplier": this.state.selectedSupplier
         }          
         ).then((result)=>{
           //console.log(result);
@@ -80,19 +98,36 @@ class ProductCreateUpdate extends Component {
             return <Redirect to="/" />
         }
         return (
-          <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>
-              Product Name:</label>
-              <input className="form-control" type="text" ref='name' />
+                  <div className="container">
+                  <h3 className="mb-4" >Product</h3>
+                  <form onSubmit={this.handleSubmit}>
 
-            <label>
-              Supplier:</label>
-              <input className="form-control" type="number" ref='supplier'/>
+                  <div className="form-group row">
+                  <label className="col-sm-2 col-form-label">Product Name</label>
+                  <div className="col-sm-10">
+                    <input type="text" required className="form-control" ref="name" placeholder="name"/>
+                  </div>
+                  </div>
 
-            <input className="btn btn-primary" type="submit" value="Submit" />
-            </div>
-          </form>
+                  <div className="form-group row">
+                    <label  className="col-sm-2 col-form-label">Supplier</label>
+                    <div className="col-sm-10">
+                      {/* <input className="form-control" type="text" ref='hq' /> */}
+                    <select className="form-control" ref="supplier" required value={this.state.selectedSupplier} onChange={this.handleChange}>
+                    <option value="" > -- Select --</option>
+                    {this.state.suppliersList.map(({id,name})=>
+                      <option value={id} key={id} > {name} </option>
+                  
+                  )}
+                  
+                    </select>
+                    </div>
+                  </div>
+
+
+                  <input className="btn btn-primary pull-right" type="submit" value="Submit" />
+                  </form>
+                  </div>
         );
       }  
 }

@@ -75,7 +75,7 @@ class  OrdersList  extends  Component {
                 <tr  key={c.id}>
                 <td key={ i} >{i+1}  </td>
                 <td key={ i}>{c.order_date_human}</td>
-                <td key={ i}>{c.headquarter.name}</td>
+                <td key={ i}>{ c.headquarter==null ? <i>"Unknown"</i>:c.headquarter.name}</td>
                 <td key={ i}>
                 
                 <button class='btn btn-success mr-1' onClick={(e)=>  this.handleModal(e,c.id,c.order_detail) }> Order Detail</button>
@@ -100,7 +100,7 @@ class  OrdersList  extends  Component {
             {this.state.order_detail.map((od,i)  =>
                 <tr  key={od.id}>
                 <td key={ i}>{i+1}</td>
-                <td key={ i}>{od.product.name}</td>
+                <td key={ i}>{od.product==null ?<i>"Unknown"</i>:od.product.name}</td>
                 <td key={ i}>{od.product_quantity}</td>
             </tr>)}
             </tbody>

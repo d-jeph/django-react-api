@@ -9,7 +9,23 @@ class SupplierSerializer(serializers.ModelSerializer):
         read_only_fields=('id',)
 
 class ProductSerializer(serializers.ModelSerializer):
-    supplier = SupplierSerializer(read_only=True)
+    supplier = SupplierSerializer()
+    class Meta:
+        model = Product
+        fields = ('id','name', 'supplier')
+        read_only_fields=('id',)
+
+    def update(self, instance, validated_data):
+        supplier_id=validated_data.data.pop('supplier')
+        supplier = Supplier.objects.get(pk=supplier_id)
+        instance.name = validated_data.get('name', instance.name)
+        instance.supplier = supplier
+        instance.save()
+        return instance
+
+
+class ProductUpdateSerializer(serializers.ModelSerializer):
+    supplier = SupplierSerializer()
     class Meta:
         model = Product
         fields = ('id','name', 'supplier')

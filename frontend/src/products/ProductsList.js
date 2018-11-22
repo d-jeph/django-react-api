@@ -11,10 +11,15 @@ class  ProductsList  extends  Component {
         this.state  = {
             products: [],
             notify:false,
-            //redirectToIndex: false
+            selectedSupplier: 1
         };
         this.handleDelete  =  this.handleDelete.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
+
+    handleChange(event) {
+        this.setState({selectedSupplier: event.target.value});
+      }
 
     componentDidMount() {
     var  self  =  this;

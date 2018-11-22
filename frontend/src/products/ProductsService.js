@@ -9,7 +9,13 @@ export default class ProductsService{
     getProducts() {
         const url = `${API_URL}/api/products/`;
         return axios.get(url).then(response => response.data);
-    }  
+    }
+
+    getSuppliers() {
+        const url = `${API_URL}/api/suppliers/`;
+        return axios.get(url).then(response => response.data);
+    }
+    
     getProductsByURL(link){
         const url = `${API_URL}${link}`;
         return axios.get(url).then(response => response.data);
@@ -27,7 +33,7 @@ export default class ProductsService{
         return axios.post(url,product);
     }
     updateProduct(product){
-        const url = `${API_URL}/api/products/${product.pk}/`;
+        const url = `${API_URL}/api/products/update/${product.pk}/`;
         return axios.put(url,product);
     }
 }
