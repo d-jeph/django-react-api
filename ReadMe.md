@@ -1,4 +1,4 @@
-## Django Rest API for STK-Push
+## Django Rest API with React JS
 This a simple CRUD api application that supports the following technologies:
 * [Django](https://www.djangoproject.com/) for the application backend
 * [django-rest-framework](https://www.django-rest-framework.org/) for data Serialization
@@ -7,13 +7,13 @@ This a simple CRUD api application that supports the following technologies:
 
 To test the application locally you will need to have the following tools installed: 
 * python
-* virturtual env
-* node js and nmp
+* virtualenv
+* node js and npm
 * git
 
 ## Setup
 ### Backend/Server
-* If you wish to run your own build, first ensure you have python globally installed in your computer. If not, you can get python [here](https://www.python.org").
+* First ensure you have python globally installed in your computer. If not, you can get python [here](https://www.python.org").
 * After doing this, confirm that you have installed virtualenv globally as well. If not, run this:
     ```bash
         $ pip install virtualenv
@@ -57,7 +57,7 @@ To test the application locally you will need to have the following tools instal
 #### Fronted/Client
     1. Cd into your the cloned repo as such:
         ```bash
-            $ cd django-react-api/frontend
+            $ cd django-react-api/frontend/
         ```
     2. Run the commands:
         ```bash
